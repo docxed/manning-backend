@@ -1,5 +1,4 @@
-require('dotenv').config()
-
+const knex = require('./db')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -10,9 +9,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 
-// use from src/index.js
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get('/', async (req, res) => {
+  const rows = await knex.table('books').select('*')
+  res.json(rows)
 })
 
 app.listen(port, () => {
