@@ -10,8 +10,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 
+// use from src/index.js
 app.get('/', (req, res) => {
-  res.json({ message: 'Hello World!' })
+  res.send('Hello World!')
 })
 
 app.listen(port, () => {
