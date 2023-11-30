@@ -1,4 +1,5 @@
-const knex = require('./db')
+require('dotenv').config()
+require('module-alias/register')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -9,10 +10,12 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 
-app.get('/', async (req, res) => {
-  const rows = await knex.table('books').select('*')
-  res.json(rows)
-})
+const errorException = require('./middlewares/errorException')
+const bookRouter = require('./modules/bookModule/routes/bookRoute')
+
+app.use('/books', bookRouter)
+
+app.use(errorException)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
